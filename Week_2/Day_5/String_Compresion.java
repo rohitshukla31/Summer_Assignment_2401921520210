@@ -1,40 +1,30 @@
 class Solution {
+    public int compress(char[] chars) {
 
-    public String longestPalindrome(String s) {
+        int i = 0;
+        int index = 0;
 
-        if (s == null || s.length() < 2) {
-            return s;
-        }
+        while (i < chars.length) {
 
-        int start = 0;
-        int maxLen = 1;
+            char current = chars[i];
+            int count = 0;
 
-        for (int i = 0; i < s.length(); i++) {
+            while (i < chars.length && chars[i] == current) {
+                count++;
+                i++;
+            }
 
-            int len1 = expand(s, i, i);      
-            int len2 = expand(s, i, i + 1);  
+            chars[index++] = current;
 
-            int len = Math.max(len1, len2);
+            if (count > 1) {
+                String cnt = String.valueOf(count);
 
-            if (len > maxLen) {
-                maxLen = len;
-                start = i - (len - 1) / 2;
+                for (char ch : cnt.toCharArray()) {
+                    chars[index++] = ch;
+                }
             }
         }
 
-        return s.substring(start, start + maxLen);
-    }
-
-    private int expand(String s, int left, int right) {
-
-        while (left >= 0 &&
-               right < s.length() &&
-               s.charAt(left) == s.charAt(right)) {
-
-            left--;
-            right++;
-        }
-
-        return right - left - 1;
+        return index;
     }
 }
